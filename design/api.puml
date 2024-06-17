@@ -1,0 +1,27 @@
+@startuml
+skinparam linetype ortho
+hide empty members
+
+class "recipes.example.com" as api <<api>>
+class "/recipes" as index <<resouce>> {
+    recipes
+    --
+    GET()
+}
+class "/recipes/[ID]" as recipe <<resource>> {
+    title
+    description
+    ingredients
+    instructions
+    --
+    GET(id)
+    POST(title, description, ingredients, instructions)
+    PUT(title, description, ingredients, instructions)
+    DELETE()
+}
+
+api --> index
+api --> recipe
+index --> recipe
+
+@enduml
