@@ -1,0 +1,34 @@
+@startjson
+
+{
+  "recipes": [
+    {
+      "id":"1234",
+      "name":"Ham Sandwich",
+      "ingredients": [
+        {
+            "name":"bread",
+            "unit":"slice",
+            "amount":"2"
+        },
+        {
+            "name":"ham",
+            "unit":"slice",
+            "amount":"1"
+        },
+        {
+            "name":"mayonnaise",
+            "unit":"tbsp",
+            "amount":"2"
+        }
+      ],
+      "instructions": [
+        "Spread mayonnaise onto each slice of bread.",
+        "Place the slice of ham onto one of the slices of bread.",
+        "Place the other slice on top to assemble the sandwich."
+      ]
+    }
+  ]
+}
+
+@endjson
