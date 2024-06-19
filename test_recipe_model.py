@@ -6,7 +6,7 @@ class TestRecipe:
         Recipe.clear()  # Clear the db before each test
 
     def test_save_recipe(self):
-        r = Recipe("Test1", [], [])
+        r = Recipe("Test1", "", [], [])
         r.save()
         recipes = Recipe.all()
         assert len(recipes) == 1
@@ -16,8 +16,8 @@ class TestRecipe:
         assert recipes[0].instructions() == []
 
     def test_save_two_recipes(self):
-        r1 = Recipe("Test2", [], [])
-        r2 = Recipe("Test3", [], [])
+        r1 = Recipe("Test2", "", [], [])
+        r2 = Recipe("Test3", "", [], [])
         r1.save()
         r2.save()
         recipes = Recipe.all()
@@ -32,19 +32,19 @@ class TestRecipe:
         assert recipes[1].instructions() == []
 
     def test_find_recipe_exact(self):
-        r = Recipe("sandwich", [], [])
+        r = Recipe("sandwich", "", [], [])
         r.save()
         result = Recipe.find("sandwich")
         assert len(result) == 1
 
     def test_find_recipe_partial(self):
-        r = Recipe("sandwich", [], [])
+        r = Recipe("sandwich", "", [], [])
         r.save()
         result = Recipe.find("sand")
         assert len(result) == 1
 
     def test_find_recipe_not_found(self):
-        r = Recipe("sandwich", [], [])
+        r = Recipe("sandwich", "", [], [])
         r.save()
         result = Recipe.find("omelette")
         assert len(result) == 0

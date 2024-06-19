@@ -4,12 +4,14 @@ class Recipe:
     def __init__(
         self,
         name,
+        description,
         ingredients,
         instructions,
         id=None,
     ) -> None:
         self.id_ = id
         self.name_ = name
+        self.description_ = description
         self.ingredients_ = ingredients
         self.instructions_ = instructions
 
@@ -21,6 +23,9 @@ class Recipe:
 
     def name(self):
         return self.name_
+
+    def description(self):
+        return self.description_
 
     def ingredients(self):
         return self.ingredients_
