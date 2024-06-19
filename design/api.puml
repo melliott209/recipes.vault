@@ -8,6 +8,10 @@ class "/recipes" as index <<resouce>> {
     --
     GET()
 }
+class "/recipes/new" as new <<resource>> {
+    --
+    POST(title, description, ingredients, instructions)
+  }
 class "/recipes/[ID]" as recipe <<resource>> {
     title
     description
@@ -15,7 +19,6 @@ class "/recipes/[ID]" as recipe <<resource>> {
     instructions
     --
     GET(id)
-    POST(title, description, ingredients, instructions)
     PUT(title, description, ingredients, instructions)
     DELETE()
 }
@@ -23,5 +26,6 @@ class "/recipes/[ID]" as recipe <<resource>> {
 api --> index
 api --> recipe
 index --> recipe
+index --> new
 
 @enduml
