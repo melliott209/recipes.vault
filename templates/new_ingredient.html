@@ -1,0 +1,18 @@
+<fieldset>
+  <label for="ingredient">Ingredient</label>
+  <input
+    type="text"
+    name="ingredient"
+    value=""
+    hx-get="/recipes/new/new-ingredient"
+    hx-target="closest fieldset"
+    hx-swap="afterend"
+    hx-trigger="change once"
+  />
+
+  <label for="qty">Qty</label>
+  <input type="number" name="qty" value="0" />
+
+  <label for="unit">Unit</label>
+  <input type="text" name="unit" value="" />
+</fieldset>
