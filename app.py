@@ -6,9 +6,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return redirect("/recipes")
 
 
-@app.route("/recipe")
-def recipe_get():
-    return render_template("recipe.html")
+@app.route("/recipes")
+def recipes():
+    return render_template("index.html", recipes=Recipe.all())
