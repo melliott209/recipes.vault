@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+
+
 class Recipe:
     db = {}
 
@@ -55,3 +58,10 @@ class Recipe:
             if r.name().find(query) >= 0:
                 result.append(r)
         return result
+
+
+@dataclass
+class Ingredient:
+    name: str
+    qty: int
+    unit: str
