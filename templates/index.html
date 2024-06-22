@@ -1,6 +1,13 @@
 {% extends 'layout.html' %} {% block content %}
 
-<button>Add Recipe</button>
-<button hx-get="/recipe" hx-target="body">View Recipe</button>
+<table>
+{% for r in recipes %}
+  <tr>
+    <td>{{r.name()}}</td>
+  </tr>
+{% endfor %}
+</table>
+
+<button hx-get="/recipes/new" hx-target="body">Add Recipe</button>
 
 {% endblock %}
