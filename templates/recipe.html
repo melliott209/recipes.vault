@@ -1,21 +1,23 @@
 {% extends 'layout.html' %} {% block content %}
 
-<h2>Ham Sandwich</h2>
+<h2>{{recipe.name()}}</h2>
 
-<p>A simple ham sandwich with mayo.</p>
+<p>{{recipe.description()}}</p>
 
 <h3>Ingredients:</h3> 
 <ul>
-  <li>2 slices bread</li>
-  <li>1 slice ham</li>
-  <li>2 tbsp mayonnaise</li>
+  {% for i in recipe.ingredients() %}
+  <li>{{i.name()}}</li>
+  {% endfor %}
 </ul>
 
 <h3>Instructions:</h3>
 <ol>
-  <li>Spread mayonnaise on bread.</li>
-  <li>Place ham on one slice of bread.</li>
-  <li>Close the sandwich with the other slice of bread.</li>
+  {% for ins in recipe.instructions() %}
+  <li>{{ins}}</li>
+  {% endfor %}
 </ol>
+
+<a href="/recipes">Back</a>
 
 {% endblock %}

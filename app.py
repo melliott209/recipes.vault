@@ -32,5 +32,15 @@ def new_ingredient():
     return render_template("new_ingredient.html")
 
 
+@app.route("/recipes/<int:id>")
+def recipe_get(id):
+    recipe = Recipe.get_by_id(id)
+    if recipe is not None:
+        return render_template("recipe.html", recipe=recipe)
+    else:
+        # TODO: Flash an error
+        return redirect("/recipes")
+
+
 if __name__ == "__main__":
     app.run(debug=True)

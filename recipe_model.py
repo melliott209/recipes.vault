@@ -59,6 +59,14 @@ class Recipe:
                 result.append(r)
         return result
 
+    @classmethod
+    def get_by_id(cls, id: int):
+        print(f"Get {id} from {cls.db.values()}")
+        if id > len(cls.db.values()):
+            return None
+        else:
+            return list(cls.db.values())[id]
+
 
 @dataclass
 class Ingredient:
