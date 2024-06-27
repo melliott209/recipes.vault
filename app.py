@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request
-from recipe_model import Recipe
+from recipe_model import Ingredient, Recipe
 
 
 app = Flask(__name__)
@@ -22,7 +22,14 @@ def new_recipe_get():
 
 @app.route("/recipes/new", methods=["POST"])
 def new_recipe():
-    r = Recipe(request.form["title"], request.form["desc"], [], [])
+    ingredients_data = request.form.getlist("ingredient")[:-1]
+    qty_data = request.form.getlist("qty")[:-1]
+    unit_data = request.form.getlist("unit")[:-1]
+    ingredients = []
+    for idx, i in enumerate(ingredients_data):
+        ingredients.append(Ingredient(i, int(qty_data[idx]), unit_data[idx]))
+    instructions = request.form.getlist("instruction")
+    r = Recipe(request.form["title"], request.form["desc"], ingredients, instructions)
     r.save()  # TODO: check if this errors or not
     return redirect("/recipes")
 
