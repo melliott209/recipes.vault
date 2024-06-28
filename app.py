@@ -3,6 +3,7 @@ from recipe_model import Ingredient, Recipe
 
 
 app = Flask(__name__)
+Recipe.load_db()
 
 
 @app.route("/")
@@ -28,7 +29,7 @@ def new_recipe():
     ingredients = []
     for idx, i in enumerate(ingredients_data):
         ingredients.append(Ingredient(i, int(qty_data[idx]), unit_data[idx]))
-    instructions = request.form.getlist("instruction")
+    instructions = request.form.getlist("instruction")[:-1]
     r = Recipe(request.form["title"], request.form["desc"], ingredients, instructions)
     r.save()  # TODO: check if this errors or not
     return redirect("/recipes")
@@ -37,6 +38,11 @@ def new_recipe():
 @app.route("/recipes/new/new-ingredient", methods=["GET"])
 def new_ingredient():
     return render_template("new_ingredient.html")
+
+
+@app.route("/recipes/new/new-instruction")
+def new_instruction():
+    return render_template("new_instruction.html")
 
 
 @app.route("/recipes/<int:id>")

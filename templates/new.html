@@ -15,6 +15,8 @@
       <input type="text" name="desc" value="">
     </div>
 
+    <h3>Ingredients</h3>
+
     <fieldset>
       <label for="ingredient">Ingredient</label>
       <input type="text" name="ingredient" value="" hx-get="/recipes/new/new-ingredient" hx-target="closest fieldset" hx-swap="afterend" hx-trigger="change once">
@@ -24,6 +26,13 @@
 
       <label for="unit">Unit</label>
       <input type="text" name="unit" value="">
+    </fieldset>
+
+    <h3>Instructions</h3>
+    <fieldset>
+      <div>
+        <input type="text" name="instruction" value="" hx-get="/recipes/new/new-instruction" hx-target="closest div" hx-swap="afterend" hx-trigger="change once">
+      </div>
     </fieldset>
   </fieldset>
 
