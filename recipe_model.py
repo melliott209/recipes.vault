@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 import json
-from json import JSONEncoder
 
 
 class Recipe:
