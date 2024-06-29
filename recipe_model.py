@@ -3,7 +3,7 @@ import json
 from json import JSONEncoder
 
 
-class Recipe(JSONEncoder):
+class Recipe:
     db = {}
 
     def __init__(
@@ -22,6 +22,15 @@ class Recipe(JSONEncoder):
 
     def __str__(self):
         return f"{self.id_}:{self.name_}"
+
+    def to_json(self):
+        return {
+            "id": self.id_,
+            "name": self.name_,
+            "description": self.description_,
+            "ingredients": [i.__dict__ for i in self.ingredients_],
+            "instructions": self.instructions_,
+        }
 
     def id(self):
         return self.id_
@@ -71,17 +80,7 @@ class Recipe(JSONEncoder):
     @classmethod
     def save_db(cls):
         with open("data.json", "w") as file:
-            file.write(json.dumps(list(cls.db.values())))
-
-    def default(self, o):
-        if isinstance(o, Recipe):
-            return {
-                "name": self.name_,
-                "description": self.description_,
-                "ingredients": [i.__dict__ for i in self.ingredients_],
-                "instructions": self.instructions_,
-            }
-        return super().default(o)
+            json.dump([r.to_json() for r in cls.db.values()], file)
 
     @classmethod
     def load_db(cls):
