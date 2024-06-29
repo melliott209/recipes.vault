@@ -84,11 +84,24 @@ class Recipe:
 
     @classmethod
     def load_db(cls):
-        pass
+        with open("data.json", "r") as file:
+            data = json.load(file)
+            cls.clear()
+            for recipe_json in data:
+                cls.load_recipe(recipe_json)
 
     @classmethod
-    def load_recipe(cls):
-        pass
+    def load_recipe(cls, recipe_json):
+        id = recipe_json["id"]
+        name = recipe_json["name"]
+        description = recipe_json["description"]
+        ingredients = [
+            Ingredient(i["name"], i["qty"], i["unit"])
+            for i in recipe_json["ingredients"]
+        ]
+        instructions = recipe_json["instructions"]
+        recipe = Recipe(name, description, ingredients, instructions, id)
+        cls.db[id] = recipe
 
 
 @dataclass
