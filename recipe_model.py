@@ -1,7 +1,9 @@
 from dataclasses import dataclass
+import json
+from json import JSONEncoder
 
 
-class Recipe:
+class Recipe(JSONEncoder):
     db = {}
 
     def __init__(
@@ -40,8 +42,7 @@ class Recipe:
         if self.id_ is None:
             self.id_ = len(Recipe.db)
         Recipe.db[self.id_] = self
-        for r in Recipe.all():
-            print(r)
+        Recipe.save_db()
 
     @classmethod
     def clear(cls):
@@ -66,6 +67,29 @@ class Recipe:
             return None
         else:
             return list(cls.db.values())[id]
+
+    @classmethod
+    def save_db(cls):
+        with open("data.json", "w") as file:
+            file.write(json.dumps(list(cls.db.values())))
+
+    def default(self, o):
+        if isinstance(o, Recipe):
+            return {
+                "name": self.name_,
+                "description": self.description_,
+                "ingredients": [i.__dict__ for i in self.ingredients_],
+                "instructions": self.instructions_,
+            }
+        return super().default(o)
+
+    @classmethod
+    def load_db(cls):
+        pass
+
+    @classmethod
+    def load_recipe(cls):
+        pass
 
 
 @dataclass
