@@ -18,6 +18,7 @@
   {% endfor %}
 </ol>
 
+<button hx-delete="/recipes/{{recipe.id()}}" hx-target="body">Delete</button>
 <a href="/recipes">Back</a>
 
 {% endblock %}

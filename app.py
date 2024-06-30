@@ -51,8 +51,18 @@ def recipe_get(id):
     if recipe is not None:
         return render_template("recipe.html", recipe=recipe)
     else:
-        # TODO: Flash an error
+        # TODO: Flash failure
         return redirect("/recipes")
+
+
+@app.route("/recipes/<int:id>", methods=["DELETE"])
+def recipe_delete(id):
+    if Recipe.delete(id):
+        return redirect("/recipes", 303)
+        # TODO: Flash success
+    else:
+        return redirect("/recipes")
+        # TODO: Flash failure
 
 
 if __name__ == "__main__":

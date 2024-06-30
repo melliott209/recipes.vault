@@ -48,3 +48,25 @@ class TestRecipe:
         r.save()
         result = Recipe.find("omelette")
         assert len(result) == 0
+
+    def test_first_assigned_idx_is_0(self):
+        r = Recipe("sandwich", "", [], [])
+        r.save()
+        assert Recipe.maxIdx == 0
+
+    def test_second_idx_is_1(self):
+        r = Recipe("sandwich", "", [], [])
+        r2 = Recipe("sandwich2", "", [], [])
+        r.save()
+        r2.save()
+        assert Recipe.maxIdx == 1
+
+    def test_index_skips_deleted(self):
+        r = Recipe("sandwich", "", [], [])
+        r2 = Recipe("sandwich2", "", [], [])
+        r3 = Recipe("sandwich3", "", [], [])
+        r.save()
+        r2.save()
+        Recipe.delete(1)
+        r3.save()
+        assert Recipe.all()[1].id() == 2

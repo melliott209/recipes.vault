@@ -1,9 +1,11 @@
 from dataclasses import dataclass
 import json
+import os
 
 
 class Recipe:
     db = {}
+    maxIdx = 0
 
     def __init__(
         self,
@@ -48,13 +50,15 @@ class Recipe:
 
     def save(self):
         if self.id_ is None:
-            self.id_ = len(Recipe.db)
+            Recipe.maxIdx += 1
+            self.id_ = Recipe.maxIdx
         Recipe.db[self.id_] = self
         Recipe.save_db()
 
     @classmethod
     def clear(cls):
         cls.db.clear()
+        cls.maxIdx = -1
 
     @classmethod
     def all(cls):
@@ -70,11 +74,19 @@ class Recipe:
 
     @classmethod
     def get_by_id(cls, id: int):
-        print(f"Get {id} from {cls.db.values()}")
-        if id > len(cls.db.values()):
+        if id > Recipe.maxIdx:
             return None
         else:
-            return list(cls.db.values())[id]
+            return cls.db.get(id)
+
+    @classmethod
+    def delete(cls, id: int):
+        if id in cls.db.keys():
+            cls.db.pop(id)
+            cls.save_db()
+            return True
+        else:
+            return False
 
     @classmethod
     def save_db(cls):
@@ -83,11 +95,14 @@ class Recipe:
 
     @classmethod
     def load_db(cls):
+        if not os.path.exists("data.json"):
+            return
         with open("data.json", "r") as file:
             data = json.load(file)
             cls.clear()
             for recipe_json in data:
                 cls.load_recipe(recipe_json)
+            cls.maxIdx = max(cls.db.keys())
 
     @classmethod
     def load_recipe(cls, recipe_json):
