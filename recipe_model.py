@@ -55,6 +55,13 @@ class Recipe:
         Recipe.db[self.id_] = self
         Recipe.save_db()
 
+    def update(self, name, desc, ings, inss):
+        self.name_ = name
+        self.description_ = desc
+        self.ingredients_ = ings
+        self.instructions_ = inss
+        Recipe.save_db()
+
     @classmethod
     def clear(cls):
         cls.db.clear()
@@ -102,7 +109,8 @@ class Recipe:
             cls.clear()
             for recipe_json in data:
                 cls.load_recipe(recipe_json)
-            cls.maxIdx = max(cls.db.keys())
+            if cls.db:
+                cls.maxIdx = max(cls.db.keys())
 
     @classmethod
     def load_recipe(cls, recipe_json):

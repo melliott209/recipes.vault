@@ -55,6 +55,14 @@ def recipe_get(id):
         return redirect("/recipes")
 
 
+@app.route("/recipes/<int:id>/edit")
+def recipe_edit_get(id):
+    recipe = Recipe.get_by_id(id)
+    if recipe is None:
+        recipe = Recipe("", "", [], [])
+    return render_template("edit.html", recipe=recipe)
+
+
 @app.route("/recipes/<int:id>", methods=["DELETE"])
 def recipe_delete(id):
     if Recipe.delete(id):
@@ -63,6 +71,27 @@ def recipe_delete(id):
     else:
         return redirect("/recipes")
         # TODO: Flash failure
+
+
+@app.route("/recipes/<int:id>", methods=["PUT"])
+def recipe_update(id):
+    name = request.form["title"]
+    desc = request.form["desc"]
+    ingredients_data = request.form.getlist("ingredient")[:-1]
+    qty_data = request.form.getlist("qty")[:-1]
+    unit_data = request.form.getlist("unit")[:-1]
+    ingredients = []
+    for idx, i in enumerate(ingredients_data):
+        ingredients.append(Ingredient(i, int(qty_data[idx]), unit_data[idx]))
+    instructions = request.form.getlist("instruction")[:-1]
+
+    recipe = Recipe.get_by_id(id)
+    if recipe is not None:
+        recipe.update(name, desc, ingredients, instructions)
+        # TODO: Flash success
+        return redirect("/recipes")
+    # TODO: Flash failure
+    return redirect("/recipes")
 
 
 if __name__ == "__main__":
