@@ -1,8 +1,9 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, flash
 from recipe_model import Ingredient, Recipe
 
 
 app = Flask(__name__)
+app.secret_key = b'sm1?7,HBxd0@'
 Recipe.load_db()
 
 
@@ -32,6 +33,7 @@ def new_recipe():
     instructions = request.form.getlist("instruction")[:-1]
     r = Recipe(request.form["title"], request.form["desc"], ingredients, instructions)
     r.save()  # TODO: check if this errors or not
+    flash(f"Successfully created recipe: {r.name()}")
     return redirect("/recipes")
 
 
@@ -51,7 +53,7 @@ def recipe_get(id):
     if recipe is not None:
         return render_template("recipe.html", recipe=recipe)
     else:
-        # TODO: Flash failure
+        flash("Failed to retrieve recipe!", "error")
         return redirect("/recipes")
 
 
@@ -66,11 +68,11 @@ def recipe_edit_get(id):
 @app.route("/recipes/<int:id>", methods=["DELETE"])
 def recipe_delete(id):
     if Recipe.delete(id):
+        flash("Successfully deleted recipe")
         return redirect("/recipes", 303)
-        # TODO: Flash success
     else:
+        flash("Failed to delete recipe!", "error")
         return redirect("/recipes")
-        # TODO: Flash failure
 
 
 @app.route("/recipes/<int:id>", methods=["PUT"])
@@ -88,9 +90,10 @@ def recipe_update(id):
     recipe = Recipe.get_by_id(id)
     if recipe is not None:
         recipe.update(name, desc, ingredients, instructions)
-        # TODO: Flash success
-        return redirect("/recipes")
-    # TODO: Flash failure
+        flash(f'Successfully updated recipe: {name}')
+        return redirect("/recipes", 303)
+    else:
+        flash("Failed to update recipe!", "error")
     return redirect("/recipes")
 
 
